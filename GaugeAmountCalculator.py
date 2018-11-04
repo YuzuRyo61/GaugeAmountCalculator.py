@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import subprocess, os
+import subprocess, os, sys
 
 def breaking():
 	# PAUSE
@@ -32,14 +32,14 @@ if __name__ == "__main__":
 		bonusAfter = int(input("終了時のボーナス量: "))
 		rising = int(input("ゲージ上昇率(%単位、変化しない場合100、上昇しない場合0): "))
 		if notes == None or bonusBefore == None or combo == None or bonus == None or bonusAfter == None or rising == None:
-			break
-		else:
 			print("E: 一部の値が入力されていません。")
+		else:
+			break
 	
 	# CALC
 	try:
 		timesBonus = int(notes / combo)
-		amountBonux = bonus * timesBonus
+		amountBonus = bonus * timesBonus
 		risingParcent = rising
 		gaugeNormal = 60000 * risingParcent
 		amountGauge = gaugeNormal + amountBonus + bonusBefore + bonusAfter
@@ -47,19 +47,19 @@ if __name__ == "__main__":
 		print("FATAL: エラーが発生しました。ボーナスが入るコンボを0に設定しましたか？")
 		print("FATAL: 開始時と終了時のみボーナスが入る場合は、ボーナスが入るコンボ数に0以外の任意の数字を入れて、ボーナス量を0に設定してください。")
 		breaking()
-		os.exit(1)
+		sys.exit(1)
 	
 	while vgAmount >= amountGauge:
 		gaugeNumber = gaugeNumber + 1
 		vgAmount = vgAmount + 10000 + (2000 + gaugeNumber)
 	
 	# RESULT
-	print("ノーツ数: {0}\nボーナス: {1}\n コンボごとに+{2}\nゲージ上昇率: {3}%\n\n増加量理論値: {4}".format(notes, combo, bonus, rising))
-	if vgAmount == amountGause:
+	print("ノーツ数: {0}\nボーナス: {1}\n コンボごとに+{2}\nゲージ上昇率: {3}%\n\n増加量理論値: {4}".format(notes, combo, bonus, rising, amountGauge))
+	if vgAmount == amountGauge:
 		print("理論上到達ゲージ本数: {}".format(gaugeNumber))
 	else:
 		print("理論上到達ゲージ本数: {}".format(gaugeNumber - 1))
 	
 	# BREAKING
 	breaking()
-	os.exit()
+	sys.exit()
