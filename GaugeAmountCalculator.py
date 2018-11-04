@@ -37,11 +37,17 @@ if __name__ == "__main__":
 			print("E: 一部の値が入力されていません。")
 	
 	# CALC
-	timesBonus = int(notes / combo)
-	amountBonux = bonus * timesBonus
-	risingParcent = rising
-	gaugeNormal = 60000 * risingParcent
-	amountGauge = gaugeNormal + amountBonus + bonusBefore + bonusAfter
+	try:
+		timesBonus = int(notes / combo)
+		amountBonux = bonus * timesBonus
+		risingParcent = rising
+		gaugeNormal = 60000 * risingParcent
+		amountGauge = gaugeNormal + amountBonus + bonusBefore + bonusAfter
+	except Exception:
+		print("FATAL: エラーが発生しました。ボーナスが入るコンボを0に設定しましたか？")
+		print("FATAL: 開始時と終了時のみボーナスが入る場合は、ボーナスが入るコンボ数に0以外の任意の数字を入れて、ボーナス量を0に設定してください。")
+		breaking()
+		os.exit(1)
 	
 	while vgAmount >= amountGauge:
 		gaugeNumber = gaugeNumber + 1
